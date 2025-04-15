@@ -1,6 +1,6 @@
 {
   "name": "@gokulvaradan/markdown-parser",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "license": "ISC",
   "author": "",
@@ -11,9 +11,12 @@
     "dev": "nodemon dist/index.js"
   },
   "dependencies": {
-    "@types/node": "^22.14.1",
     "typescript": "^5.8.3"
   },
+  "files": [
+    "dist/**",
+    "README.md"
+  ],
   "devDependencies": {
     "nodemon": "^3.1.9"
   }
