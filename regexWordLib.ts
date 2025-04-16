@@ -36,8 +36,7 @@ const highlightRegex = Object.freeze({
 const blockQuoteRegex = Object.freeze({
   token: ">",
   tag: 'blockquote',
-  startRegex: /^\>/,
-  endRegex: /\n/d
+  startRegex: /^\>/
 })
 
 
@@ -50,7 +49,7 @@ const codeRegex = Object.freeze({
 
 const codeBlockRegex = Object.freeze({
   token: "```",
-  tag: 'code',
+  tag: 'pre',
   startRegex: /^\`\`\`/,
   endRegex: /\`\`\`/d
 })
@@ -85,6 +84,8 @@ const imgRegex = Object.freeze({
   startUrlRegex: /^\(/,
   endUrlRegex: /\)/d
 })
+
+
 const expressions = [
   urlRegex,
   imgRegex

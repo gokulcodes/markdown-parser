@@ -25,7 +25,6 @@ export function listRenderer(lines: Array<string>, index: number, tabCnt: number
   if (currTabCnt > tabCnt) {
     
     // new nesting is needed here
-
     return `<${listType}>` + `<li>` + wordParser(lines[index].substring(currTabCnt + 2)) + listRenderer(lines, index + 1, currTabCnt, wordParser, listType) + "</li>" + `</${listType}>`
 
   }

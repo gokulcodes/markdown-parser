@@ -1,6 +1,6 @@
 type Pattern = {
   startRegex: RegExp,
-  endRegex: RegExp,
+  endRegex?: RegExp,
   token: string,
   tag: string
 }

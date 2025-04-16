@@ -19,9 +19,11 @@ function checkPatternMatch(content : string) {
     return {isEndHalfValid: -1, matchedToken: undefined, endHalf: ''};
   }
   let tokenLen = matchedToken?.token?.length;
-  let endHalf = content.substring(tokenLen)
-    let isEndHalfValid = checkEndMatch(endHalf, matchedToken.endRegex)
-    return {isEndHalfValid, matchedToken, endHalf}
+  let endHalf = content.substring(tokenLen), isEndHalfValid = content.length;
+  if (matchedToken.endRegex) {
+    isEndHalfValid = checkEndMatch(endHalf, matchedToken.endRegex)
+  }
+  return {isEndHalfValid, matchedToken, endHalf}
 }
 
 function checkExpressionMatch(content : string) {
@@ -71,7 +73,7 @@ function wordParser(content: string) : string {
   while(pointer < n) {
     let remainingStr = content.substring(pointer);
 
-    let {isEndHalfValid, matchedToken, endHalf} = checkPatternMatch(remainingStr)
+    let { isEndHalfValid, matchedToken, endHalf } = checkPatternMatch(remainingStr)
     if (isEndHalfValid !== -1 && matchedToken && endHalf) {
       let tokenLen = matchedToken?.token?.length;
       let endIndex = isEndHalfValid;
@@ -103,11 +105,16 @@ function Digester(content : string) : string {
 
   let response : Array<string> = [],
     n = lines.length, pointer = 0;
-
   while (pointer < n) {
     
     let remainingStr = lines[pointer];
     let { isEndHalfValid, matchedToken, endHalf } = checkLineStart(remainingStr)
+
+    if (remainingStr === '---') {
+      response.push('<hr />')
+      pointer++;
+      continue;
+    }
 
     if (isEndHalfValid !== -1 && matchedToken && endHalf) {
       let endIndex = isEndHalfValid;
@@ -128,7 +135,7 @@ function Digester(content : string) : string {
         if (lineIndex == n) break;
       }
 
-      pointer = lineIndex;
+      pointer = lineIndex - 1;
       response.push(listRenderer(group, 0, -1, wordParser, 'ul'))
 
     } else if (checkStartMatch(lines[pointer], orderedListRegex.startRegex)) {
@@ -142,7 +149,7 @@ function Digester(content : string) : string {
         if (lineIndex == n) break;
       }
 
-      pointer = lineIndex;
+      pointer = lineIndex - 1;
       response.push(listRenderer(group, 0, -1, wordParser, 'ol'))
 
     } else if (checkStartMatch(lines[pointer], tableRegex.startRegex)) {
@@ -162,7 +169,7 @@ function Digester(content : string) : string {
     } else if (lines[pointer].length) {
       response.push(`<p>${wordParser(lines[pointer])}</p>`);
     } else {
-      response.push("<br />")
+      response.push("<div />")
     }
 
     pointer++
@@ -170,6 +177,20 @@ function Digester(content : string) : string {
 
   return response.join('\n')
 }
+
+// const res = Digester(
+//   `
+// ```
+// javascript
+// // Sample JavaScript function\
+// function greet(name) {\
+//   return `Hello, ${name}! 👋`;\
+// }\
+// console.log(greet('sdfasdfdf'));\
+// ```"
+// )
+
+// console.log(res)
 
 export {
   Digester,
