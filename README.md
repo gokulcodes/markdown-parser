@@ -2,6 +2,9 @@
 
 A lightweight, modular Markdown-to-HTML parser that supports all essential markdown features—including headings, lists, tables, blockquotes, code blocks, multimedia embedding, and rich word formatting. Built with extensibility and security in mind, this parser converts clean, human-readable markdown into sanitized, structured HTML ready for the web.
 
+NPM Package
+<a href="https://www.npmjs.com/package/@gokulvaradan/markdown-parser"><img alt="npm" src="https://img.shields.io/badge/NPM-MarkdownParser-darkgreen?style=flat-rounded&logo=npm"></a>
+
 ### ✅ Features
 
 - ✔️ Headings (`#`, `##`, … `######`)
