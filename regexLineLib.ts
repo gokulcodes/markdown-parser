@@ -61,6 +61,13 @@ const tableRegex = Object.freeze({
   endRegex: /\n/d
 })
 
+const codeBlockRegex = Object.freeze({
+  token: "```",
+  tag: 'pre',
+  startRegex: /^\`\`\`/,
+  endRegex: /\`\`\`/d
+})
+
 const singleStarts = [
     h6Regex,
     h5Regex,
@@ -73,6 +80,7 @@ const singleStarts = [
 export {
     singleStarts,
     unorderedListRegex,
-    orderedListRegex,
+  orderedListRegex,
+    codeBlockRegex,
     tableRegex
 }

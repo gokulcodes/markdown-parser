@@ -47,12 +47,6 @@ const codeRegex = Object.freeze({
   endRegex: /\`/d
 })
 
-const codeBlockRegex = Object.freeze({
-  token: "```",
-  tag: 'pre',
-  startRegex: /^\`\`\`/,
-  endRegex: /\`\`\`/d
-})
 
 const patterns = [
   boldRegex,
@@ -60,10 +54,11 @@ const patterns = [
   underlineRegex,
   strikeRegex,
   highlightRegex,
-  codeBlockRegex,
   codeRegex,
   blockQuoteRegex
 ]
+
+
 
 const urlRegex = Object.freeze({
   token: "[",

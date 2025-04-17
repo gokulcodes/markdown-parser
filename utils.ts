@@ -45,8 +45,16 @@ export function tableRenderer(lines: Array<string>, wordParser:Function): string
   while (pointer < lines.length) {
     let line = lines[pointer];
     let column = line.split("|");
+    if (column.length > 1) {
+      column.shift();
+      column.pop();
+    }
     rows.push(column);
     pointer++;
+  }
+
+  if (rows.length > 1) {
+    rows.splice(1, 1);
   }
 
   return `<table>
@@ -62,4 +70,9 @@ export function tableRenderer(lines: Array<string>, wordParser:Function): string
           )
     .join("")}
           </table>`
+}
+
+export function codeBlockRenderer(lines: Array<string>) {
+  let fullCode = lines.join('\n');
+  return "<pre>" + fullCode + "</pre>"
 }

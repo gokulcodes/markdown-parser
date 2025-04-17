@@ -1,7 +1,7 @@
 import { patterns, expressions } from './regexWordLib';
-import { orderedListRegex, singleStarts, tableRegex, unorderedListRegex  } from './regexLineLib';
+import { codeBlockRegex, orderedListRegex, singleStarts, tableRegex, unorderedListRegex  } from './regexLineLib';
 import { Pattern, Expression } from "./types"
-import { checkEndMatch, checkStartMatch, listRenderer, tableRenderer } from './utils'
+import { checkEndMatch, checkStartMatch, codeBlockRenderer, listRenderer, tableRenderer } from './utils'
 
 function checkLineStart(content : string) {
   let matchedToken: Pattern | undefined = singleStarts.find((token) => checkStartMatch(content, token.startRegex));
@@ -40,10 +40,8 @@ function checkExpressionMatch(content : string) {
   }
   
   let title = titleHalf.substring(0, isTitleEndValid), url = '',urlTitle =''
-  console.log(title)
   
   let secondSegment = titleHalf.substring(title.length + tokenEndLen);
-  console.log(content, matchedToken, isTitleEndValid, secondSegment)
   if (checkStartMatch(secondSegment, matchedToken.startUrlRegex)) {
     
     let urlHalf = secondSegment.substring(tokenEndLen)
@@ -100,9 +98,8 @@ function wordParser(content: string) : string {
   return response;
 }
 
-function Digester(content : string) : string {
+function parse(content : string) : string {
   let lines = content.split("\n");
-
   let response : Array<string> = [],
     n = lines.length, pointer = 0;
   while (pointer < n) {
@@ -166,6 +163,19 @@ function Digester(content : string) : string {
 
       response.push(tableRenderer(group, wordParser));
 
+    } else if (checkStartMatch(lines[pointer].trim(), codeBlockRegex.startRegex)) {
+      
+      let group = [lines[pointer].trim()?.substring(3)];
+      let lineIndex = pointer + 1;
+      while (lineIndex < n && !checkStartMatch(lines[lineIndex].trim(), codeBlockRegex.startRegex)) {
+        group.push(lines[lineIndex])
+        lineIndex++;
+      }
+
+      pointer = lineIndex + 1;
+
+      response.push(codeBlockRenderer(group));
+
     } else if (lines[pointer].length) {
       response.push(`<p>${wordParser(lines[pointer])}</p>`);
     } else {
@@ -178,21 +188,8 @@ function Digester(content : string) : string {
   return response.join('\n')
 }
 
-// const res = Digester(
-//   `
-// ```
-// javascript
-// // Sample JavaScript function\
-// function greet(name) {\
-//   return `Hello, ${name}! 👋`;\
-// }\
-// console.log(greet('sdfasdfdf'));\
-// ```"
-// )
-
-// console.log(res)
-
-export {
-  Digester,
-  wordParser
+const markdown = {
+  parse,
 }
+
+export default markdown
