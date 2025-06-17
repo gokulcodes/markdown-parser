@@ -1,10 +1,11 @@
 {
   "name": "@gokulvaradan/markdown-parser",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "description": "A lightweight, modular Markdown-to-HTML parser that supports all essential markdown features—including headings, lists, tables, blockquotes, code blocks, multimedia embedding, and rich word formatting.",
   "license": "ISC",
+  "types": "./types/index.d.ts",
   "author": "Gokul Varadan",
-  "main": "index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
@@ -14,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/gokulcodes/markdown-parser.git"
   },
-  "homepage": "https://markdowncanvas.netlify.app/",
+  "homepage": "https://markdown.gokulcodes.dev/",
   "keywords": [
     "markdown",
     "markdown-parser",
@@ -27,6 +28,12 @@
   },
   "files": [
     "dist/**",
+    "types/**",
+    "regexLineLib.ts",
+    "regexWordLib.ts",
+    "utils.ts",
+    "index.ts",
+    "index.d.ts",
     "README.md"
   ],
   "devDependencies": {
